@@ -1,4 +1,6 @@
 class BedslingerAlignHelper:
+    _MODULE_NAME = 'bedslinger_gantry_alignment'
+
     def __init__(self, config):
         self.config = config
         self.printer = config.get_printer()
@@ -24,8 +26,20 @@ class BedslingerAlignHelper:
         self.force_move = None
 
     def handle_ready(self):
+        # Validate config
+        if self.align_step_size_initial < self.align_step_size_precise:
+            raise self.printer.config_error('[%s]: align_step_size_initial can\'t be lower than align_step_size_precise!' % self._MODULE_NAME)
+
         self.toolhead = self.printer.lookup_object('toolhead')
-        self.force_move = self.printer.load_object(self.config, 'force_move')
+
+        try:
+            self.force_move = self.printer.lookup_object('force_move')
+        except:
+            raise self.printer.config_error('[force_enable] must be present in printer.cfg!')
+            
+        num_steppers = sum(1 for entry in self.force_move.steppers if entry.startswith('stepper_z'))
+        if len(self.endstops) != num_steppers:
+            raise self.printer.config_error('Number of z_endstops doesn\'t match number of Z steppers!')
 
     def _query_endstop_state(self):
         res = []
@@ -55,8 +69,8 @@ class BedslingerAlignHelper:
 
     def do_z_align(self):
         gcode = self.printer.lookup_object('gcode')
-
         gcode.respond_info('Gantry alignment started. Gantry moving to initial position: Z' + str(self.initial_z_height))
+
         initial_pos = self.toolhead.get_position()
         initial_pos[0] = self.safe_x_pos
         initial_pos[2] = self.initial_z_height
