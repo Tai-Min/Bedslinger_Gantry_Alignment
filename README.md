@@ -52,6 +52,15 @@ gcode:
     G28 Z
 ```
 
+Moonraker:
+```
+[update_manager Bedslinger_Gantry_Alignment]
+type: git_repo
+path: ~/Bedslinger_Gantry_Alignment
+origin: https://github.com/Tai-Min/Bedslinger_Gantry_Alignment
+primary_branch: master
+```
+
 ## Usage
 Script in Configuration section is pretty much all required. If you want to utilize this plugin to your own printing routine then remember that:
 * All axes must be homed before BEDSLINGER_GANTRY_ALIGN
