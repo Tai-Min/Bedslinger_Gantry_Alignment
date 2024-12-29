@@ -20,6 +20,10 @@ cd Bedslinger_Gantry_Alignment && ./install.sh
 ## Configuration
 printer.cfg:
 ```
+# Force move must be present in printer.cfg!
+[force_move]
+enable_force_move: true # Doesn't matter whether true or false
+
 [bedsligner_gantry_alignment]
 z_endstops: ^PC13, ^PC2 # Endstops for stepper_z, stepper_z1 ... stepper_zn.
 safe_x_pos: 117.5 # Safe position of X gantry that won't crash into alignment endstops, on typical 3d printers it's the center of workspace.
