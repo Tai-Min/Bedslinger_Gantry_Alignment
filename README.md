@@ -69,6 +69,7 @@ primary_branch: master
 Script in Configuration section is pretty much all required. If you want to utilize this plugin to your own printing routine then remember that:
 * All axes must be homed before BEDSLINGER_GANTRY_ALIGN
 * Z axis must be homed again after BEDSLINGER_GANTRY_ALIGN
+* During manual bed level make sure BEDSLINGER_GANTRY_ALIGN is called before to level the bed to aligned gantry
 
 ## Disclaimer
 I've tested this plugin only on my configuration (Ender 3 frame, config as in above exapmpe). 
